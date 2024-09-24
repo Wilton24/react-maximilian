@@ -1,7 +1,7 @@
-export default function Homepage(props:any){
+export default function Homepage({children}: any){
   return (
     <div>      
-      <h1>Homepage</h1>
+      <h1>{children}</h1>
     </div>
   )
 }

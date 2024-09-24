@@ -1,8 +1,8 @@
-export default function TabFiller() {
+export default function TabFiller({message, subMessage} : any) {
   return (
     <div>
-      <h1>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iusto iure enim placeat minus error quae provident perspiciatis ex 
-        veritatis, sit impedit, labore a. Tempora voluptates, quia eveniet praesentium illo quibusdam?</h1>
+      <h2>{message}</h2>
+      <p>{subMessage}</p>
     </div>
   )
 }
