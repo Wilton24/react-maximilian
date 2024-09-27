@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import ModalDialog from "./modals/ModalDialog";
+import Dialog from "./modals/Dialog";
 
 export default function RefsNPortals(){
 
@@ -24,7 +25,10 @@ export default function RefsNPortals(){
         <br />
         <input type="text" ref={inputRef} className="text-slate-900 mr-4" id="name"/>
         <button onClick={showModal}>Submit</button>
+
+        
         <button onClick={()=> dialogRef.current?.showModal()}>open Dialog</button>
+        <Dialog ref={dialogRef}/>
       </>}        
     </>
     
