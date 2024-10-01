@@ -1,8 +1,8 @@
 import "./modalDialog.css";
 
 
-
 function ModalDialog({name, showModal}: any){
+
   return (    
     <div className="modal-dialog modal ">
       <div className="modal-content flex flex-col items-center justify-center">
