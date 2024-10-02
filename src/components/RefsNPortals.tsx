@@ -30,6 +30,7 @@ export default function RefsNPortals(){
       </>}         */}
       <button onClick={()=> dialogRef.current?.open()}>Clek mi</button>
       <ImperativeDialog name={name} ref={dialogRef}/>
+      <button onClick={()=> dialogRef.current?.sampleTry()}>Child Comp</button>
     </>
     
   )

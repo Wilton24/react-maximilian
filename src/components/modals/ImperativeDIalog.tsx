@@ -8,7 +8,7 @@ import { forwardRef, Ref, useImperativeHandle, useRef } from "react";
 
 
 const ImperativeDialog = ({name}: any, ref: Ref<any| null>)=>{
-  const dialog = useRef<any>(null);
+  const dialog = useRef<HTMLDialogElement>(null);
 
   useImperativeHandle(ref, ()=>{
     return {
@@ -18,6 +18,10 @@ const ImperativeDialog = ({name}: any, ref: Ref<any| null>)=>{
       },
       close: ()=>{
         console.log('Close modal')
+      },
+      sampleTry() {
+        console.log(`Working from child component`);
+        
       }
     }
   });
@@ -29,7 +33,7 @@ const ImperativeDialog = ({name}: any, ref: Ref<any| null>)=>{
         <h2>We used useImperativeHandle hook for this </h2>
         <p>Your name is {name}</p>
         <form method="dialog">
-          <button>X</button>
+          <button onClick={()=> dialog.current?.close()}>X</button>
         </form>
       </div>
 
