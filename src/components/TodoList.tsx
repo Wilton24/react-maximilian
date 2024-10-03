@@ -8,34 +8,34 @@ type Todo = {
 };
 
 interface ITodoList{
-  title: string,
-  description: string,
-  date: Date
-}
+  title: string | undefined,
+  description: string | undefined,
+  date: string | undefined
+};
 
 const TodoList: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [task, setTask] = useState<string>("");
-  const taskRef = useRef<HTMLInputElement | null>(null);
+  // const [task, setTask] = useState<string>("");
+  // const taskRef = useRef<HTMLInputElement | null>(null);
 
   const [todo, setTodo] = useState<ITodoList[]>([]);
   const titleRef = useRef<HTMLInputElement | null>(null);
   const descriptionRef = useRef<HTMLInputElement | null>(null);
   const dateRef = useRef<HTMLInputElement | null>(null);
+  const [singleTodo, setSingleTodo] = useState<ITodoList | null>(null);
+
 
   const handleAddTodo = () => {
-    if (!task.trim()) return;
-
-    const newTodo: Todo = {
-      id: Date.now(),
-      task,
-      completed: false,
+    const todoObj: ITodoList = {
+      title: titleRef.current?.value,
+      description: descriptionRef.current?.value,
+      date: dateRef.current?.value
     };
+    console.log(todoObj);
 
-    setTodos((prevTodos) => [...prevTodos, newTodo]);
-    setTask(""); // Clear the input
-    taskRef.current?.focus(); // Refocus input after adding
   };
+
+
 
   const handleToggleComplete = (id: number) => {
     setTodos((prevTodos) =>
@@ -60,9 +60,7 @@ const TodoList: React.FC = () => {
         >Add
         </button>
       </div>
-  
-      
-      
+              
       <InputField
         type="text" 
         label="Title"
