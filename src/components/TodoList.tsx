@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import InputField from "./InputField";
 
 type Todo = {
@@ -19,30 +19,39 @@ const TodoList: React.FC = () => {
   // const taskRef = useRef<HTMLInputElement | null>(null);
 
   const [todo, setTodo] = useState<ITodoList[]>([]);
-  const titleRef = useRef<HTMLInputElement | null>(null);
-  const descriptionRef = useRef<HTMLInputElement | null>(null);
-  const dateRef = useRef<HTMLInputElement | null>(null);
-  const [singleTodo, setSingleTodo] = useState<ITodoList | null>(null);
+  const titleRef = useRef<HTMLInputElement | null | any>();
+  const descriptionRef = useRef<HTMLInputElement | null | any>();
+  const dateRef = useRef<HTMLInputElement | null | any>();
+  const [singleTodo, setSingleTodo] = useState<any>();
 
+  const numberRef = useRef<number>(0);
+  const [numberState, setNumberState] = useState<number | null | any>(0);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    console.log( singleTodo);
+  }, [singleTodo]);
+
+  function clearTodo(){
+    titleRef.current.value = '';
+    descriptionRef.current.value = '';
+    dateRef.current.value = '';
+  };
 
   const handleAddTodo = () => {
     const todoObj: ITodoList = {
-      title: titleRef.current?.value,
-      description: descriptionRef.current?.value,
-      date: dateRef.current?.value
+      title: titleRef.current.value,
+      description: descriptionRef.current.value,
+      date: dateRef.current.value
     };
-    console.log(todoObj);
+    setSingleTodo(todoObj);
 
+    clearTodo();            
   };
 
 
-
-  const handleToggleComplete = (id: number) => {
-    setTodos((prevTodos) =>
-      prevTodos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      )
-    );
+  function handleAddingTodo(e:Event) {
+    console.log(e.target);
   };
 
   const handleDelete = (id: number) => {
@@ -67,6 +76,7 @@ const TodoList: React.FC = () => {
         placeholder="Enter Title" 
         ref={titleRef}
         />
+
       <InputField 
         type="textarea" 
         label="Description" 
@@ -80,6 +90,16 @@ const TodoList: React.FC = () => {
         placeholder="Enter due date"
         ref={dateRef}
         />
+        
+        <input type="text" ref={inputRef} />
+
+        <div>
+          <button onClick={()=> setNumberState(numberRef.current--)}>-</button>
+          <h2>Number Test {numberState}</h2>
+          <button onClick={()=> console.log(inputRef.current?.value)
+          }>+</button>
+        </div>
+
 
       {/* Todo List */}
       <ul className="list-none">
@@ -92,7 +112,7 @@ const TodoList: React.FC = () => {
               className={`cursor-pointer ${
                 todo.completed ? "line-through text-gray-500" : ""
               }`}
-              onClick={() => handleToggleComplete(todo.id)}
+              onClick={() => console.log(todo.id)}
             >
               {todo.task}
             </div>

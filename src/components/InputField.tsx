@@ -5,11 +5,11 @@ interface InputFieldProps {
   className?: string;
   placeholder?: string;
   label?: string;
-  onInput?: (event: React.FormEvent<HTMLInputElement>) => void;
+  onInput?: any
 };
 
 type ImperativeHandle = {
-  sample: () => void
+  focus: () => void
 }
 
 const defaultClassname: string = 
@@ -18,15 +18,14 @@ const defaultClassname: string =
 const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
   ({ type, className, placeholder, label, onInput, ...etc }, ref: Ref<HTMLInputElement | any>) => {
 
-    const inputRef = useRef<HTMLInputElement | null>(null);
+    // const inputRef = useRef<HTMLInputElement | null>(null);
 
-    useImperativeHandle(ref, ()=>{
-      return {
-        sample: ()=>{
-          console.log('Hello Tryeal');
-        }
-      }
-    },[]);
+    // useImperativeHandle(ref, () => ({
+    //   focus: () => {
+    //     inputRef.current?.focus();
+    //   },
+    //   value: inputRef.current?.value,
+    // }));
 
     return (
       <>
@@ -35,9 +34,9 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
           type={type}
           placeholder={placeholder}
           className={className || defaultClassname}
-          ref={inputRef}
+          ref={ref}
+          onChange={onInput}
           {...etc}
-          onChange={()=> onInput}
         />
       </>
     );
