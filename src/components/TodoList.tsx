@@ -8,15 +8,14 @@ type Todo = {
 };
 
 interface ITodoList{
+  id: number | undefined
   title: string | undefined,
   description: string | undefined,
   date: string | undefined
 };
 
 const TodoList: React.FC = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
-  // const [task, setTask] = useState<string>("");
-  // const taskRef = useRef<HTMLInputElement | null>(null);
+
 
   const [todo, setTodo] = useState<ITodoList[]>([]);
   const titleRef = useRef<HTMLInputElement | null | any>();
@@ -24,12 +23,10 @@ const TodoList: React.FC = () => {
   const dateRef = useRef<HTMLInputElement | null | any>();
   const [singleTodo, setSingleTodo] = useState<any>();
 
-  const numberRef = useRef<number>(0);
-  const [numberState, setNumberState] = useState<number | null | any>(0);
-  const inputRef = useRef<HTMLInputElement | null>(null);
-
   useEffect(() => {
     console.log( singleTodo);
+    console.log(todo);
+    
   }, [singleTodo]);
 
   function clearTodo(){
@@ -40,13 +37,17 @@ const TodoList: React.FC = () => {
 
   const handleAddTodo = () => {
     const todoObj: ITodoList = {
-      title: titleRef.current.value,
-      description: descriptionRef.current.value,
-      date: dateRef.current.value
+      id: todo.length +1,
+      title: titleRef.current.value.trim(),
+      description: descriptionRef.current.value.trim(),
+      date: dateRef.current.value.trim()
     };
     setSingleTodo(todoObj);
+    clearTodo();
 
-    clearTodo();            
+    setTodo((prev:ITodoList[] ) => {
+      return [...prev, todoObj]
+    });
   };
 
 
@@ -54,8 +55,8 @@ const TodoList: React.FC = () => {
     console.log(e.target);
   };
 
-  const handleDelete = (id: number) => {
-    setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+  function handleDeleteTask(){
+    console.log('Task deleted')
   };
 
   return (
@@ -89,45 +90,15 @@ const TodoList: React.FC = () => {
         label="Due date" 
         placeholder="Enter due date"
         ref={dateRef}
-        />
-        
-        <input type="text" ref={inputRef} />
+        />    
 
-        <div>
-          <button onClick={()=> setNumberState(numberRef.current--)}>-</button>
-          <h2>Number Test {numberState}</h2>
-          <button onClick={()=> console.log(inputRef.current?.value)
-          }>+</button>
-        </div>
+      <section>
+        {todo.map((task: ITodoList)=>{
+          return <li className="p-3 mb-2 border-b list-none border-gray-300 hover:bg-blue-100 rounded-lg transition-all duration-200 ease-in-out">{task.title}</li>
+        })}
+      </section>
 
-
-      {/* Todo List */}
-      <ul className="list-none">
-        {todos.map((todo) => (
-          <li
-            key={todo.id}
-            className="flex justify-between items-center mb-2 p-2 border-b border-gray-300"
-          >
-            <div
-              className={`cursor-pointer ${
-                todo.completed ? "line-through text-gray-500" : ""
-              }`}
-              onClick={() => console.log(todo.id)}
-            >
-              {todo.task}
-            </div>
-            <button
-              onClick={() => handleDelete(todo.id)}
-              className="text-red-500 hover:text-red-700 focus:outline-none"
-            >
-              Delete
-            </button>
-          </li>
-        ))}
-      </ul>
-
-      {/* No Todos Message */}
-      {todos.length === 0 && (
+      {todo.length === 0 && (
         <p className="text-gray-500 text-center">No tasks available.</p>
       )}
     </div>
