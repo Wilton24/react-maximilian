@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import InputField from "./InputField";
+import { MdOutlineKeyboardArrowDown, MdDelete } from "react-icons/md";
+import Todolists from "./Todolists";
 
 type Todo = {
   id: number;
@@ -7,7 +9,7 @@ type Todo = {
   completed: boolean;
 };
 
-interface ITodoList{
+export interface ITodoList{
   id: number | undefined
   title: string | undefined,
   description: string | undefined,
@@ -92,9 +94,11 @@ const TodoList: React.FC = () => {
         ref={dateRef}
         />    
 
+        {/* key={task.id} className="p-3 mb-2 border-b list-none border-gray-300 cursor-pointer hover:bg-blue-100 rounded-lg transition-all duration-200 ease-in-out" */}
+
       <section>
         {todo.map((task: ITodoList)=>{
-          return <li className="p-3 mb-2 border-b list-none border-gray-300 hover:bg-blue-100 rounded-lg transition-all duration-200 ease-in-out">{task.title}</li>
+          return  <Todolists task={task} key={task.id} />          
         })}
       </section>
 
