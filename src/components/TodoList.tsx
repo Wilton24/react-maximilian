@@ -3,21 +3,15 @@ import InputField from "./InputField";
 import { MdOutlineKeyboardArrowDown, MdDelete } from "react-icons/md";
 import Todolists from "./Todolists";
 
-type Todo = {
-  id: number;
-  task: string;
-  completed: boolean;
-};
 
 export interface ITodoList{
-  id: number | undefined
+  id:  string | any
   title: string | undefined,
   description: string | undefined,
   date: string | undefined
 };
 
 const TodoList: React.FC = () => {
-
 
   const [todo, setTodo] = useState<ITodoList[]>([]);
   const titleRef = useRef<HTMLInputElement | null | any>();
@@ -30,6 +24,21 @@ const TodoList: React.FC = () => {
     console.log(todo);
     
   }, [singleTodo]);
+
+
+    useEffect(() => {
+      const handleKeyPress = (event: KeyboardEvent) => {
+        if (event.key === "Enter") {
+          handleAddTodo();
+        }
+      };
+  
+      window.addEventListener("keydown", handleKeyPress);
+      return () => {
+        window.removeEventListener("keydown", handleKeyPress);
+      };
+    }, []);
+
 
   function clearTodo(){
     titleRef.current.value = '';
@@ -48,18 +57,10 @@ const TodoList: React.FC = () => {
     clearTodo();
 
     setTodo((prev:ITodoList[] ) => {
-      return [...prev, todoObj]
+      return [...prev, todoObj];
     });
   };
 
-
-  function handleAddingTodo(e:Event) {
-    console.log(e.target);
-  };
-
-  function handleDeleteTask(){
-    console.log('Task deleted')
-  };
 
   return (
     <div className="w-[500px] mx-auto mt-10 p-5 bg-white rounded-lg shadow-lg">
@@ -94,11 +95,9 @@ const TodoList: React.FC = () => {
         ref={dateRef}
         />    
 
-        {/* key={task.id} className="p-3 mb-2 border-b list-none border-gray-300 cursor-pointer hover:bg-blue-100 rounded-lg transition-all duration-200 ease-in-out" */}
-
       <section>
         {todo.map((task: ITodoList)=>{
-          return  <Todolists task={task} key={task.id} />          
+          return  <Todolists task={task} key={parseInt(task.id)} />          
         })}
       </section>
 
